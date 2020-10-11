@@ -6,6 +6,8 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
+import Bubbles from './components/Bubbles/Bubbles';
+
 import './App.css';
 require('dotenv').config();
 
@@ -109,6 +111,7 @@ class App extends Component {
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
         {  route === 'home'
           ? <div>
+            <Bubbles />
             <Logo />
             <Rank name={this.state.user.name} entries={this.state.user.entries} />
             <ImageLinkForm
