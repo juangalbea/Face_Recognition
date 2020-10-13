@@ -1,16 +1,41 @@
-import React from 'react'
 
-import './FaceRecognition.css';
+import React from "react";
+import MixingFaces from "../MixingFaces/MixingFaces";
+import paper from '../../paper.jpg';
 
-const FaceRecognition = ({ imageUrl, box }) => {
+function FaceRecognition({ imageUrl, box }) {
+  let borderArray;
+  console.log(box)
+  var sortable = [];
+for (var vehicle in box) {
+    sortable.push([vehicle, box[vehicle]]);
+}
+
+sortable.sort(function(a, b) {
+    return a[1].age - b[1].age;
+});
+
+console.log('hello')
+console.log(sortable)
+  if (box.length) {
+    borderArray = sortable.map((singleBox, i) => {
+      return <MixingFaces singleBox={singleBox[1]} key={i} />;
+    });
+  }
   return (
-    <div className='center ma'>
-      <div className='absolute mt2'>
-        <img id='inputimage' alt='' src={imageUrl} width='500px' height='auto' />
-        <div className='bounding-box' style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div>
+    <div className="center ma">
+      <div className="absolute mt2">
+        <img
+          src={imageUrl || paper}
+          alt="img"
+          width="500px"
+          height="auto"
+          id="inputImage"
+        />
+        {borderArray}
       </div>
     </div>
-  )
+  );
 }
 
 export default FaceRecognition;

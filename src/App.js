@@ -3,7 +3,7 @@ import Navigation from './components/Navigation/Navigation';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
-import Logo from './components/Logo/Logo';
+// import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import Bubbles from './components/Bubbles/Bubbles';
@@ -45,17 +45,22 @@ class App extends Component {
   }
 
   calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.getElementById('inputimage');
+    console.log(data);
+    const clarifaiFace = data.outputs[0].data.regions;
+    const image = document.getElementById("inputImage");
     const width = Number(image.width);
     const height = Number(image.height);
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - (clarifaiFace.right_col * width),
-      bottomRow: height - (clarifaiFace.bottom_row * height)
-    }
-  }
+    return clarifaiFace.map((face) => {
+      const singleFace = face.region_info.bounding_box;
+      return {
+        age: face.data.concepts[0].name,
+        leftCol: singleFace.left_col * width,
+        topRow: singleFace.top_row * height,
+        rightCol: width - singleFace.right_col * width,
+        bottomRow: height - singleFace.bottom_row * height,
+      };
+    });
+  };
 
   displayFaceBox = (box) => {
     this.setState({ box: box });
@@ -67,7 +72,8 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.input });
-    fetch('https://dry-citadel-52850.herokuapp.com/imageurl', {
+    fetch('http://localhost:3000/imageurl', {
+      // fetch('https://dry-citadel-52850.herokuapp.com/imageurl', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -76,7 +82,8 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(response => {
-        fetch('https://dry-citadel-52850.herokuapp.com/image', {
+        fetch('http://localhost:3000/image', {
+          // fetch('https://dry-citadel-52850.herokuapp.com/image', {
           method: 'put',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -112,7 +119,7 @@ class App extends Component {
         {  route === 'home'
           ? <div>
             <Bubbles />
-            <Logo />
+            
             <Rank name={this.state.user.name} entries={this.state.user.entries} />
             <ImageLinkForm
               onInputChange={this.onInputChange}
