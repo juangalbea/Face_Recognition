@@ -4,7 +4,7 @@ const Rank = ({ name, entries }) => {
   return (
     <div>
       <div className='white f3'>
-        {`${name} , the number of images you stored in the database is:`}
+        {`${name} , this is the number of the calls you made to the API:`}
         <div className='white f1 '>
           {entries}
         </div>

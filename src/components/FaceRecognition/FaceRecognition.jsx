@@ -5,7 +5,7 @@ import paper from '../../paper.jpg';
 
 function FaceRecognition({ imageUrl, box }) {
   let borderArray;
-  console.log(box)
+  var result;
   var sortable = [];
 for (var vehicle in box) {
     sortable.push([vehicle, box[vehicle]]);
@@ -15,11 +15,17 @@ sortable.sort(function(a, b) {
     return a[1].age - b[1].age;
 });
 
-console.log('hello')
-console.log(sortable)
+
+var count = sortable.length;
+result = sortable.map(function(el) {
+  var o = Object.assign({}, el[1]);
+  o.redColor = Math.floor(100*count / sortable.length);
+  count--;
+  return o;
+})
   if (box.length) {
-    borderArray = sortable.map((singleBox, i) => {
-      return <MixingFaces singleBox={singleBox[1]} key={i} />;
+    borderArray = result.map((singleBox, i) => {
+      return <MixingFaces singleBox={singleBox} key={i} />;
     });
   }
   return (
