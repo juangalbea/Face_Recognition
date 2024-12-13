@@ -25,6 +25,11 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
+
+Additional Note on Node.js Version
+To ensure compatibility, it's recommended to use Node.js version 22 or above when running the available scripts. Using an incompatible version may lead to unexpected behavior.
+
+
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ### `yarn eject`
